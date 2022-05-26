@@ -1,10 +1,10 @@
 import discord
 from discord.ext import commands
 
-from syt_bot.secrets import SECRETS
+from syt_bot.env import ENV
 from syt_bot.stream import Music
 
-discord.opus.load_opus(SECRETS.OPUS_PATH)
+discord.opus.load_opus(ENV.OPUS_PATH)
 intents = discord.Intents.all()
 
 
@@ -28,4 +28,4 @@ async def on_ready():
 
 def main():
     bot.add_cog(Music(bot))
-    bot.run(SECRETS.DISCORD_API_KEY)
+    bot.run(ENV.DISCORD_API_KEY)

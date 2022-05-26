@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 
-class secrets:
+class env:
     DISCORD_API_KEY = None
     OPUS_PATH = None
 
@@ -17,4 +17,4 @@ class secrets:
         assert self.OPUS_PATH is not None and self.OPUS_PATH != ""
 
 
-SECRETS = secrets()
+ENV = env()
