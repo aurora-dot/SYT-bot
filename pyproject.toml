@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "syt-bot"
+version = "0.1.0"
+description = "Simple YouTube Discord Bot"
+authors = ["E <e@pastel.codes>"]
+packages = [
+    { include = "syt_bot", from = "src" },
+]
+
+[tool.poetry.scripts]
+start-syt = 'syt_bot.main:main'
+
+[tool.poetry.dependencies]
+python = "^3.9"
+"discord.py" = "^1.7.3"
+python-dotenv = "^0.20.0"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "2.13.0"
+flake8 = "3.9.2"
+black = "21.6b0"
+pytest = "6.2.4"
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
