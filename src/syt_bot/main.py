@@ -1,20 +1,31 @@
 import discord
+from discord.ext import commands
 
 from syt_bot.secrets import SECRETS
+from syt_bot.stream import Music
+
+discord.opus.load_opus(SECRETS.OPUS_PATH)
+intents = discord.Intents.all()
 
 
-class MyClient(discord.Client):
-    async def on_ready(self):
-        print("Logged on as", self.user)
+bot = commands.Bot(
+    command_prefix=commands.when_mentioned_or("."),
+    description="Relatively simple music bot example",
+    intents=intents,
+)
 
-    async def on_message(self, message):
-        if message.author == self.user:
-            return
 
-        if message.content == "ping":
-            await message.channel.send("pong")
+@bot.command()
+async def ping(ctx):
+    await ctx.send("pong")
+
+
+@bot.event
+async def on_ready():
+    print(f"Logged in as  { bot.user }  (ID:  { bot.user.id } )")
+    print("------")
 
 
 def main():
-    client = MyClient()
-    client.run(SECRETS.DISCORD_API_KEY)
+    bot.add_cog(Music(bot))
+    bot.run(SECRETS.DISCORD_API_KEY)
