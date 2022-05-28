@@ -8,20 +8,32 @@ class Music(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def join(self, ctx):
-        connected = ctx.author.voice
-        if connected:
-            await connected.channel.connect()
-        else:
-            await ctx.send("Not in a voice channel")
+    async def leave(self, ctx):
+        await ctx.voice_client.disconnect()
 
     @commands.command()
-    async def leave(self, ctx):
-        connected = ctx.author.voice
-        if connected:
-            await ctx.voice_client.disconnect()
-        else:
-            await ctx.send("Not in a voice channel")
+    async def pause(self, ctx):
+        server = ctx.message.guild
+        voice_channel = server.voice_client
+        if voice_channel and voice_channel.is_playing():
+            voice_channel.pause()
+            await ctx.send("Paused", delete_after=10)
+
+    @commands.command()
+    async def resume(self, ctx):
+        server = ctx.message.guild
+        voice_channel = server.voice_client
+        if voice_channel and not voice_channel.is_playing():
+            voice_channel.resume()
+            await ctx.send("Resumed", delete_after=10)
+
+    @commands.command()
+    async def stop(self, ctx):
+        server = ctx.message.guild
+        voice_channel = server.voice_client
+        if voice_channel and voice_channel.is_playing():
+            voice_channel.stop()
+            await ctx.send("Stopped", delete_after=10)
 
     @commands.command()
     async def stream(self, ctx, *, url):
@@ -31,15 +43,12 @@ class Music(commands.Cog):
                 player, after=lambda e: print(f"Player error:  { e } ") if e else None
             )
 
-        await ctx.send(f"Now playing:  { player.title } ")
+        await ctx.send(f"Now playing:  { player.title } ", delete_after=10)
 
     @commands.command()
     async def volume(self, ctx, volume: int):
-        if ctx.voice_client is None:
-            return await ctx.send("Not connected to a voice channel.")
-
         ctx.voice_client.source.volume = volume / 100
-        await ctx.send(f"Changed volume to  { volume } %")
+        await ctx.send(f"Changed volume to  { volume } %", delete_after=10)
 
     @stream.before_invoke
     async def ensure_voice(self, ctx):
