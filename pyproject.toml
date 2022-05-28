@@ -11,7 +11,7 @@ packages = [
 start-syt = 'syt_bot.main:main'
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 "discord.py" = {extras = ["voice"], version = "^1.7.3"}
 python-dotenv = "^0.20.0"
 youtube_dl = "^2021.12.17"
